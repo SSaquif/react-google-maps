@@ -12,7 +12,7 @@ const CSSVariables = createGlobalStyle`
   /* Variables created for navbar-1 navbar-dropdown-1 (fb)*/
   /* --bg-accent: #484a4d; */
   --nav-bg: #242526;
-  --nav-height: 60px;
+  --nav-height: 75px;
   --nav-button-contatiner-size: calc(var(--nav-height) * 0.6);
   --nav-button-size: calc(var(--nav-height) * 0.4);
   /* --text-color: #dadce1; */

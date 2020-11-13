@@ -1,10 +1,6 @@
+import { useState } from "react";
 import styled from "styled-components";
-import {
-  useLoadScript,
-  GoogleMap,
-  Marker,
-  InfoWindow,
-} from "@react-google-maps/api";
+import { useLoadScript, GoogleMap } from "@react-google-maps/api";
 
 import vintageGoldenBrownMap from "../Styles/MapStyles/vintageGoldenBrownMap";
 
@@ -13,54 +9,58 @@ const MapLoadingError = styled.div``;
 
 const LoadingSpinner = styled.span``;
 
-const GeoLocButton = styled.button`
+const ZoomButton = styled.button`
   text-align: center;
-  position: absolute;
-
+  z-index: 100;
   background: red;
   border: 5px solid gold;
   border-radius: 50%;
   color: gold;
-  width: 45px;
-  height: 45px;
+  width: 55px;
+  height: 55px;
+  opacity: 0.45;
+  z-index: 10;
+  margin: 0.25em 0.5em;
 
-  &.left {
-    top: 10px;
-    left: 10px;
-  }
-
-  &.right {
-    top: 10px;
-    right: 10px;
+  &:hover {
+    opacity: 1;
   }
 `;
 
+// Putting following properties outside of
+// GoolgeMap and useLoadScript
+// To avoid too many renders
+
+// Any valid CSS properties can go here
+const mapContainerStyle = {
+  position: "relative",
+  border: "3px solid red",
+  marginTop: "var(--nav-height)",
+  height: "100%",
+  width: "100vw",
+  zIndex: "1",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-end",
+};
+
+const center = {
+  lat: 45.5048,
+  lng: -73.5772,
+};
+
+const libraries = ["places"];
+
+const options = {
+  styles: vintageGoldenBrownMap,
+  disableDefaultUI: true,
+  // zoomControl: true,
+};
+
 // Functional React Component
 function GMap() {
-  // Putting following properties outside of
-  // GoolgeMap and useLoadScript
-  // To avoid too many renders
-  const libraries = ["places"];
-
-  // Any valid CSS properties
-  const mapContainerStyle = {
-    position: "relative",
-    border: "3px solid red",
-    "margin-top": "var(--nav-height)",
-    height: "100%",
-    width: "100vw",
-  };
-
-  const center = {
-    lat: 45.5048,
-    lng: -73.5772,
-  };
-
-  const options = {
-    styles: vintageGoldenBrownMap,
-    disableDefaultUI: true,
-    zoomControl: true,
-  };
+  const [map, setMap] = useState(null);
+  const [zoom, setZoom] = useState(15);
 
   // Docs: https://react-google-maps-api-docs.netlify.app/#useloadscript
   const { isLoaded, loadError } = useLoadScript({
@@ -68,34 +68,66 @@ function GMap() {
     libraries,
   });
 
-  const renderMap = () => {
-    const onLoad = (mapInstance) => {
-      //do something with map instnace
-    };
-
-    // Docs: https://react-google-maps-api-docs.netlify.app/#googlemap
-    return (
-      <>
-        {loadError ? (
-          <MapLoadingError />
-        ) : !isLoaded ? (
-          <LoadingSpinner>Loading</LoadingSpinner>
-        ) : (
-          <GoogleMap
-            mapContainerStyle={mapContainerStyle}
-            center={center}
-            zoom={15}
-            options={options}
-          >
-            <GeoLocButton className="left">+</GeoLocButton>
-            <GeoLocButton className="right">-</GeoLocButton>
-          </GoogleMap>
-        )}
-      </>
-    );
+  const zoomIn = (ev) => {
+    ev.stopPropagation();
+    setZoom((zoom) => {
+      if (zoom < 22) {
+        return zoom + 1;
+      }
+      return zoom;
+    });
   };
 
-  return <>{renderMap()}</>;
+  const zoomOut = (ev) => {
+    ev.stopPropagation();
+    setZoom((zoom) => {
+      if (zoom > 1) {
+        return zoom - 1;
+      }
+      return zoom;
+    });
+  };
+
+  return (
+    <>
+      {loadError ? (
+        <MapLoadingError />
+      ) : !isLoaded ? (
+        <LoadingSpinner>Loading</LoadingSpinner>
+      ) : (
+        // Docs: https://react-google-maps-api-docs.netlify.app/#googlemap
+        <GoogleMap
+          onLoad={(map) => {
+            setMap(map);
+          }}
+          mapContainerStyle={mapContainerStyle}
+          center={center}
+          zoom={zoom}
+          options={options}
+          onZoomChanged={() => {
+            if (map && zoom !== map.getZoom()) {
+              setZoom(map.getZoom());
+            }
+          }}
+        >
+          <ZoomButton
+            onClick={(ev) => {
+              zoomIn(ev);
+            }}
+          >
+            +
+          </ZoomButton>
+          <ZoomButton
+            onClick={(ev) => {
+              zoomOut(ev);
+            }}
+          >
+            -
+          </ZoomButton>
+        </GoogleMap>
+      )}
+    </>
+  );
 }
 
 export default GMap;

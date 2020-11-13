@@ -1,4 +1,3 @@
-// import { useState, useRef, useCallback } from "react";
 import styled from "styled-components";
 
 import GMap from "./GMap";
