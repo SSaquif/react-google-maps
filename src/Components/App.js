@@ -1,8 +1,5 @@
 // import { useState, useRef, useCallback } from "react";
 import styled from "styled-components";
-import Normalize from "../Styles/CSS/Normalize";
-import ReducedMotion from "../Styles/CSS/ReducedMotion";
-import CSSVariables from "../Styles/CSS/CSSVariables";
 
 import GMap from "./GMap";
 
@@ -26,15 +23,10 @@ const Header = styled.div`
 
 function App() {
   return (
-    <>
-      <Normalize />
-      <ReducedMotion />
-      <CSSVariables />
-      <AppWrapper>
-        <Header />
-        <GMap />
-      </AppWrapper>
-    </>
+    <AppWrapper>
+      <Header />
+      <GMap />
+    </AppWrapper>
   );
 }
 
