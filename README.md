@@ -1,5 +1,9 @@
 # React Google Maps
 
+# Notes
+
+1. useCallback() is really useful with google maps. Because when function props to \<GoogleMaps/\> are redifined, they can cause unexpected behavior.
+
 ## Resources
 
 1. [@react-google-maps/api docs](https://react-google-maps-api-docs.netlify.app/)

@@ -13,6 +13,28 @@ const MapLoadingError = styled.div``;
 
 const LoadingSpinner = styled.span``;
 
+const GeoLocButton = styled.button`
+  text-align: center;
+  position: absolute;
+
+  background: red;
+  border: 5px solid gold;
+  border-radius: 50%;
+  color: gold;
+  width: 45px;
+  height: 45px;
+
+  &.left {
+    top: 10px;
+    left: 10px;
+  }
+
+  &.right {
+    top: 10px;
+    right: 10px;
+  }
+`;
+
 // Functional React Component
 function GMap() {
   // Putting following properties outside of
@@ -64,7 +86,10 @@ function GMap() {
             center={center}
             zoom={15}
             options={options}
-          />
+          >
+            <GeoLocButton className="left">+</GeoLocButton>
+            <GeoLocButton className="right">-</GeoLocButton>
+          </GoogleMap>
         )}
       </>
     );
