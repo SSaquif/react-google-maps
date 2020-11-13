@@ -1,8 +1,8 @@
 // import { useState, useRef, useCallback } from "react";
 import styled from "styled-components";
-import Normalize from "../Styles/Normalize";
-import ReducedMotion from "../Styles/ReducedMotion";
-import CSSVariables from "../Styles/CSSVariables";
+import Normalize from "../Styles/CSS/Normalize";
+import ReducedMotion from "../Styles/CSS/ReducedMotion";
+import CSSVariables from "../Styles/CSS/CSSVariables";
 
 import GMap from "./GMap";
 

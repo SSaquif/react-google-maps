@@ -6,7 +6,7 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 
-import vintageGoldenBrownMap from "../Utils/MapStyles/vintageGoldenBrownMap";
+import vintageGoldenBrownMap from "../Styles/MapStyles/vintageGoldenBrownMap";
 
 // Styled Components
 const MapLoadingError = styled.div``;

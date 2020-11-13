@@ -5,7 +5,7 @@ const CSSVariables = createGlobalStyle`
   /* Font Sizes */
   --large-screen-font: 20px;
   --desktop-font: 16px; /* Beleive this is browser standard*/
-  --table-font: 16px;
+  --tablet-font: 16px;
   --mobile-font: 12px;
   /*  */
 
