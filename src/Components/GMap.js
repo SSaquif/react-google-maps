@@ -1,10 +1,8 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { useLoadScript, GoogleMap } from "@react-google-maps/api";
-
 import vintageGoldenBrownMap from "../Styles/MapStyles/vintageGoldenBrownMap";
 
-// Styled Components
 const MapLoadingError = styled.div``;
 
 const LoadingSpinner = styled.span``;
@@ -25,12 +23,16 @@ const ZoomButton = styled.button`
   &:hover {
     opacity: 1;
   }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
+// ------------------------------------------------------------ //
 // Putting following properties outside of
-// GoolgeMap and useLoadScript
+// functional component
 // To avoid too many renders
-
 // Any valid CSS properties can go here
 const mapContainerStyle = {
   position: "relative",
@@ -56,11 +58,16 @@ const options = {
   disableDefaultUI: true,
   // zoomControl: true,
 };
+// ------------------------------------------------------------ //
 
-// Functional React Component
 function GMap() {
-  const [map, setMap] = useState(null);
+  // Using ref instead of state for map instance to prevent re-render
+  const mapRef = useRef();
   const [zoom, setZoom] = useState(15);
+
+  const handleMapLoad = useCallback((map) => {
+    mapRef.current = map;
+  }, []);
 
   // Docs: https://react-google-maps-api-docs.netlify.app/#useloadscript
   const { isLoaded, loadError } = useLoadScript({
@@ -81,7 +88,7 @@ function GMap() {
   const zoomOut = (ev) => {
     ev.stopPropagation();
     setZoom((zoom) => {
-      if (zoom > 1) {
+      if (zoom > 0) {
         return zoom - 1;
       }
       return zoom;
@@ -97,16 +104,14 @@ function GMap() {
       ) : (
         // Docs: https://react-google-maps-api-docs.netlify.app/#googlemap
         <GoogleMap
-          onLoad={(map) => {
-            setMap(map);
-          }}
+          onLoad={handleMapLoad}
           mapContainerStyle={mapContainerStyle}
           center={center}
           zoom={zoom}
           options={options}
           onZoomChanged={() => {
-            if (map && zoom !== map.getZoom()) {
-              setZoom(map.getZoom());
+            if (mapRef.current && zoom !== mapRef.current.getZoom()) {
+              setZoom(mapRef.current.getZoom());
             }
           }}
         >

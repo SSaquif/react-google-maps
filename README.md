@@ -6,6 +6,7 @@
 
 ## Resources
 
+1. [Original Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview)
 1. [@react-google-maps/api docs](https://react-google-maps-api-docs.netlify.app/)
-2. [Basic Tutorial](https://www.youtube.com/watch?v=WZcxJGmLbSo&t=217s)
-3. [Snazzy Maps: Custom Styles for GMaps](https://snazzymaps.com/)
+1. [Basic Tutorial](https://www.youtube.com/watch?v=WZcxJGmLbSo&t=217s)
+1. [Snazzy Maps: Custom Styles for GMaps](https://snazzymaps.com/)
